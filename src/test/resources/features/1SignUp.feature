@@ -35,3 +35,12 @@ Feature: Authentication
       | shop2    | shop2.middleman@mail.com |             | shop123  | Jakarta | phone       |
       | shop2    | shop2.middleman@mail.com | 1234567890  |          | Jakarta | password    |
       | shop2    | shop2.middleman@mail.com | 1234567890  | shop123  |         | address     |
+
+  @SignUp @TC3
+  #Positive
+  Scenario: User clicks login button on sign up page
+    Given User is already on Middleman Website
+    When  User clicks the sign-up button
+    Then  User is redirected to the registration page
+    When  User clicks the Login button
+    Then  User is redirected to login page
