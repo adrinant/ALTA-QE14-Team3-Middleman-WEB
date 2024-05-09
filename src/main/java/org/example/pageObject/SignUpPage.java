@@ -1,14 +1,20 @@
 package org.example.pageObject;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class WelcomePage {
+import java.time.Duration;
+
+
+public class SignUpPage {
     public static WebDriver webDriver;
 
-    public WelcomePage(WebDriver driver) {
+    public SignUpPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         webDriver = driver;
     }
@@ -41,4 +47,13 @@ public class WelcomePage {
     @FindBy(xpath = "//a[@id='to-login']")
     private WebElement registerLoginButton;
 
+    public boolean verifyWelcomePage() {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='logo']")));
+        boolean a = middlemanLogo.isDisplayed();
+        boolean b = middlemanStore.isDisplayed();
+        boolean c = signInButton.isDisplayed();
+        boolean d = signUpButton.isDisplayed();
+        return a && b && c && d;
+    }
 }
