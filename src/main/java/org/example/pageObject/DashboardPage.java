@@ -10,8 +10,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.example.pageObject.WelcomePage.webDriver;
-
 public class DashboardPage {
     public static WebDriver webDriver;
 

@@ -5,12 +5,13 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.example.pageObject.DashboardPage;
+import org.example.pageObject.HomePage;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
 public class ProductSteps {
     private final WebDriver driver = Hooks.driver;
-    WelcomePage welcomePage = new WelcomePage(driver);
+    HomePage homePage = new HomePage(driver);
     DashboardPage dashboardPage = new DashboardPage(driver);
 
     @When("User clicks Add Product button")
@@ -44,7 +45,7 @@ public class ProductSteps {
         String elementXpath = "//div[@id='__next']/div[@class='modal']//input[@id='input-" + elementName + "']";
 
         //check apakah elementnya memang required
-        Assert.assertTrue(welcomePage.checkInputFieldRequired(elementName));
+        Assert.assertTrue(homePage.checkInputFieldRequired(elementName));
         String expectedValidationMessage;
 
         if (elementName == "image") {
@@ -54,7 +55,7 @@ public class ProductSteps {
         }
 
         //assert validation message sesuai expected requirement
-        Assert.assertEquals(expectedValidationMessage, welcomePage.getValidationMessage(elementXpath));
+        Assert.assertEquals(expectedValidationMessage, homePage.getValidationMessage(elementXpath));
     }
 
     @Then("User should see the {string} in My Product page")

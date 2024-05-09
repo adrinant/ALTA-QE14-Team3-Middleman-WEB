@@ -10,11 +10,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+public class HomePage {
 
-public class SignUpPage {
     public static WebDriver webDriver;
 
-    public SignUpPage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         webDriver = driver;
     }
@@ -64,6 +64,11 @@ public class SignUpPage {
         boolean d = signUpButton.isDisplayed();
         return a && b && c && d;
     }
+
+    public void clickSignInButton() {
+        signInButton.click();
+    }
+
     public void clickSignUpButton() {
         signUpButton.click();
     }
@@ -93,6 +98,7 @@ public class SignUpPage {
     public void clickAlertOk() {
         webDriver.switchTo().alert().accept();
     }
+
     public boolean verifyLoginPage() {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='text-black font-Roboto font-extrabold text-5xl md:text-6xl']")));
@@ -103,6 +109,7 @@ public class SignUpPage {
         boolean e = loginLoginButton.isDisplayed();
         return a && b && c && d && e;
     }
+
     public boolean checkInputFieldRequired(String elementName) {
         String elementXpath = "//input[@id='input-" + elementName + "']";
         WebElement inputElement = webDriver.findElement(By.xpath(elementXpath));
@@ -119,6 +126,18 @@ public class SignUpPage {
 
     public void clickRegisterLoginButton() {
         registerLoginButton.click();
+    }
+
+    //SignIn
+    public void inputSignInForm(String email, String password) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='input-email']")));
+        emailField.sendKeys(email);
+        passwordField.sendKeys(password);
+    }
+
+    public void clickLoginSignInButton() {
+        loginLoginButton.click();
     }
 
 }

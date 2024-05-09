@@ -6,28 +6,49 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.example.pageObject.DashboardPage;
-import org.example.pageObject.SignInPage;
+import org.example.pageObject.HomePage;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 
-public class SignInSteps {
+public class AuthSteps {
+
     private final WebDriver driver = Hooks.driver;
-    SignInPage signInPage = new SignInPage(driver);
+    HomePage welcomePage = new HomePage(driver);
     DashboardPage dashboardPage = new DashboardPage(driver);
 
     @Given("User is already on Middleman Website")
     public void userIsAlreadyOnMiddlemanWebsite() {
-        Assert.assertTrue(signInPage.verifyWelcomePage());
+        Assert.assertTrue(welcomePage.verifyWelcomePage());
+    }
+
+    @When("User clicks the sign-up button")
+    public void userClicksTheSignUpButton() {
+        welcomePage.clickSignUpButton();
+    }
+
+    @Then("User is redirected to the registration page")
+    public void userIsRedirectedToTheRegistrationPage() {
+        Assert.assertTrue(welcomePage.verifyRegisterPage());
+    }
+
+    @When("User inputs {string} in Shop Name field, {string} in Email field, {string} in Phone Number field, {string} in Password field, {string} in Address field")
+    public void userInputsRegisterForm(String shopName, String email, String phoneNumber, String password, String address) {
+        welcomePage.fillRegisterForm(shopName, email, phoneNumber, password, address);
     }
 
     @Then("User should see an Alert {string}")
     public void userShouldSeeAnAlert(String alert) {
-        Assert.assertEquals(alert, signInPage.getRegisterSuccessAlert());
+        Assert.assertEquals(alert, welcomePage.getRegisterSuccessAlert());
     }
 
     @When("User clicks OK on alert")
     public void userClicksOKOnAlert() {
-        signInPage.clickAlertOk();
+        welcomePage.clickAlertOk();
+    }
+
+    @Then("User is redirected to login page")
+    public void userIsRedirectedBackToHomepage() {
+        Assert.assertTrue(welcomePage.verifyLoginPage());
     }
 
     @Then("User should see form {string} HTML Required Validation Message")
@@ -37,26 +58,31 @@ public class SignInSteps {
         //html validation message bisa diubah-ubah oleh dev dan sudah di handle oleh browser
 
         //check apakah elementnya memang required
-        Assert.assertTrue(signInPage.checkInputFieldRequired(elementName));
+        Assert.assertTrue(welcomePage.checkInputFieldRequired(elementName));
 
         //assert validation message sesuai expected requirement
         String expectedValidationMessage = "Please fill out this field.";
-        Assert.assertEquals(expectedValidationMessage, signInPage.getValidationMessage(elementXpath));
+        Assert.assertEquals(expectedValidationMessage, welcomePage.getValidationMessage(elementXpath));
+    }
+
+    @When("User clicks the Login button")
+    public void userClicksTheLoginButton() {
+        welcomePage.clickRegisterLoginButton();
     }
 
     @When("User clicks Sign In Button")
     public void userClicksSignInButton() {
-        signInPage.clickSignInButton();
+        welcomePage.clickSignInButton();
     }
 
     @And("User input {string} in Email field, {string} in Password field")
     public void userInputEmailPassword(String email, String password) {
-        signInPage.inputSignInForm(email, password);
+        welcomePage.inputSignInForm(email, password);
     }
 
     @And("User clicks Sign In button")
     public void userClicksLoginSignInButton() {
-        signInPage.clickLoginSignInButton();
+        welcomePage.clickLoginSignInButton();
     }
 
     @Then("User redirected to Middleman Dashboard")
@@ -86,7 +112,7 @@ public class SignInSteps {
 
     @Then("User redirected back to welcome page")
     public void userRedirectedBackToWelcomePage() {
-        signInPage.verifyWelcomePage();
+        welcomePage.verifyWelcomePage();
     }
 
 }
