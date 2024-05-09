@@ -47,6 +47,14 @@ public class SignUpPage {
     @FindBy(xpath = "//a[@id='to-login']")
     private WebElement registerLoginButton;
 
+    //LoginPage
+    @FindBy(xpath = "//h1[@class='text-black font-Roboto font-extrabold text-5xl md:text-6xl']")
+    private WebElement h1Welcome;
+    @FindBy(xpath = "//h4[@class='text-black/50 font-Roboto text-2xl italic md:text-3xl']")
+    private WebElement signInToContinue;
+    @FindBy(xpath = "//button[@id='btn-login']")
+    private WebElement loginLoginButton;
+
     public boolean verifyWelcomePage() {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='logo']")));
@@ -56,4 +64,61 @@ public class SignUpPage {
         boolean d = signUpButton.isDisplayed();
         return a && b && c && d;
     }
+    public void clickSignUpButton() {
+        signUpButton.click();
+    }
+
+    public boolean verifyRegisterPage() {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='input-name']")));
+        boolean a = shopNameField.isDisplayed();
+        boolean b = emailField.isDisplayed();
+        return a && b;
+    }
+
+    public void fillRegisterForm(String shopName, String email, String phoneNumber, String password, String address) {
+        shopNameField.sendKeys(shopName);
+        emailField.sendKeys(email);
+        phoneNumberField.sendKeys(phoneNumber);
+        passwordField.sendKeys(password);
+        addressField.sendKeys(address);
+    }
+
+    public String getRegisterSuccessAlert() {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.alertIsPresent());
+        return webDriver.switchTo().alert().getText();
+    }
+
+    public void clickAlertOk() {
+        webDriver.switchTo().alert().accept();
+    }
+    public boolean verifyLoginPage() {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(3));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[@class='text-black font-Roboto font-extrabold text-5xl md:text-6xl']")));
+        boolean a = h1Welcome.isDisplayed();
+        boolean b = signInToContinue.isDisplayed();
+        boolean c = emailField.isDisplayed();
+        boolean d = passwordField.isDisplayed();
+        boolean e = loginLoginButton.isDisplayed();
+        return a && b && c && d && e;
+    }
+    public boolean checkInputFieldRequired(String elementName) {
+        String elementXpath = "//input[@id='input-" + elementName + "']";
+        WebElement inputElement = webDriver.findElement(By.xpath(elementXpath));
+        boolean required = Boolean.parseBoolean(inputElement.getAttribute("required"));
+        return required;
+    }
+
+    public String getValidationMessage(String elementXpath) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(5)); // Adjust the timeout as needed
+        WebElement inputElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(elementXpath)));
+        String validationMessage = inputElement.getAttribute("validationMessage");
+        return validationMessage;
+    }
+
+    public void clickRegisterLoginButton() {
+        registerLoginButton.click();
+    }
+
 }
